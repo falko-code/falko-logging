@@ -2,7 +2,7 @@ using Falko.Logging.Utils;
 
 namespace Falko.Logging.Renderers;
 
-[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+[method: MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 internal sealed class SingleInstanceArgumentMessageLogMessageRenderer<T>
 (
     string? message,

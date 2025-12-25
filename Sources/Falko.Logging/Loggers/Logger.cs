@@ -20,7 +20,7 @@ public readonly partial struct Logger
 
     private readonly IDateTimeProvider _timeProvider;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public Logger(LoggerRuntime loggerRuntime, string loggerSource)
     {
         _loggerRuntime = loggerRuntime;
@@ -31,7 +31,7 @@ public readonly partial struct Logger
     #region Log()
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message)
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message)
     {
         if (message is null) return;
 
@@ -39,11 +39,11 @@ public readonly partial struct Logger
 
         var messageProvider = new SingleMessageLogMessageRenderer(message);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message)
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message)
     {
         if (exception is null && message is null) return;
 
@@ -51,7 +51,7 @@ public readonly partial struct Logger
 
         var messageProvider = new SingleMessageLogMessageRenderer(message);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -62,25 +62,25 @@ public readonly partial struct Logger
     #region Log(Argument)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T>(LoggerContext loggerContext, LogLevel level,
+    private void Log<T>(scoped ref readonly LoggerContext loggerContext, LogLevel level,
         T messageArgument, LogMessageFactory<T> messageFactory)
     {
         var time = _timeProvider.Now;
 
         var messageProvider = new ArgumentMessageFactoryLogMessageRenderer<T>(messageFactory, messageArgument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T>(LoggerContext loggerContext, LogLevel level, Exception? exception,
+    private void Log<T>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception,
         T messageArgument, LogMessageFactory<T> messageFactory)
     {
         var time = _timeProvider.Now;
 
         var messageProvider = new ArgumentMessageFactoryLogMessageRenderer<T>(messageFactory, messageArgument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -91,7 +91,7 @@ public readonly partial struct Logger
     #region Log(short)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         short argument)
     {
         if (message is null) return;
@@ -101,11 +101,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<short>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         short argument)
     {
         if (exception is null && message is null) return;
@@ -115,7 +115,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<short>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -126,7 +126,7 @@ public readonly partial struct Logger
     #region Log(ushort)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         ushort argument)
     {
         if (message is null) return;
@@ -136,11 +136,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<ushort>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         ushort argument)
     {
         if (exception is null && message is null) return;
@@ -150,7 +150,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<ushort>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -161,7 +161,7 @@ public readonly partial struct Logger
     #region Log(int)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         int argument)
     {
         if (message is null) return;
@@ -171,11 +171,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<int>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         int argument)
     {
         if (exception is null && message is null) return;
@@ -184,7 +184,7 @@ public readonly partial struct Logger
 
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<int>(message, argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -195,7 +195,7 @@ public readonly partial struct Logger
     #region Log(nint)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         nint argument)
     {
         if (message is null) return;
@@ -205,11 +205,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<nint>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         nint argument)
     {
         if (exception is null && message is null) return;
@@ -219,7 +219,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<nint>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -230,7 +230,7 @@ public readonly partial struct Logger
     #region Log(uint)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         uint argument)
     {
         if (message is null) return;
@@ -240,11 +240,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<uint>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         uint argument)
     {
         if (exception is null && message is null) return;
@@ -254,7 +254,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<uint>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -265,7 +265,7 @@ public readonly partial struct Logger
     #region Log(nuint)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         nuint argument)
     {
         if (message is null) return;
@@ -275,11 +275,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<nuint>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         nuint argument)
     {
         if (exception is null && message is null) return;
@@ -289,7 +289,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<nuint>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -300,7 +300,7 @@ public readonly partial struct Logger
     #region Log(long)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         long argument)
     {
         if (message is null) return;
@@ -310,11 +310,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<long>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         long argument)
     {
         if (exception is null && message is null) return;
@@ -324,7 +324,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<long>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -335,7 +335,7 @@ public readonly partial struct Logger
     #region Log(ulong)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         ulong argument)
     {
         if (message is null) return;
@@ -345,11 +345,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<ulong>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         ulong argument)
     {
         if (exception is null && message is null) return;
@@ -359,7 +359,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<ulong>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -370,7 +370,7 @@ public readonly partial struct Logger
     #region Log(BigInteger)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         BigInteger argument)
     {
         if (message is null) return;
@@ -380,11 +380,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<BigInteger>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         BigInteger argument)
     {
         if (exception is null && message is null) return;
@@ -394,7 +394,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<BigInteger>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -405,7 +405,7 @@ public readonly partial struct Logger
     #region Log(float)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         float argument)
     {
         if (message is null) return;
@@ -415,11 +415,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<float>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         float argument)
     {
         if (exception is null && message is null) return;
@@ -429,7 +429,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<float>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -440,7 +440,7 @@ public readonly partial struct Logger
     #region Log(double)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         double argument)
     {
         if (message is null) return;
@@ -450,11 +450,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<double>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         double argument)
     {
         if (exception is null && message is null) return;
@@ -464,7 +464,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<double>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -475,7 +475,7 @@ public readonly partial struct Logger
     #region Log(decimal)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         decimal argument)
     {
         if (message is null) return;
@@ -485,11 +485,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<decimal>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         decimal argument)
     {
         if (exception is null && message is null) return;
@@ -499,7 +499,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<decimal>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -510,7 +510,7 @@ public readonly partial struct Logger
     #region Log(Guid)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         Guid argument)
     {
         if (message is null) return;
@@ -520,11 +520,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<Guid>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         Guid argument)
     {
         if (exception is null && message is null) return;
@@ -534,7 +534,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<Guid>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -545,7 +545,7 @@ public readonly partial struct Logger
     #region Log(TimeSpan)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         TimeSpan argument)
     {
         if (message is null) return;
@@ -555,11 +555,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<TimeSpan>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         TimeSpan argument)
     {
         if (exception is null && message is null) return;
@@ -569,7 +569,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<TimeSpan>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -580,7 +580,7 @@ public readonly partial struct Logger
     #region Log(TimeOnly)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         TimeOnly argument)
     {
         if (message is null) return;
@@ -590,11 +590,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<TimeOnly>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         TimeOnly argument)
     {
         if (exception is null && message is null) return;
@@ -604,7 +604,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<TimeOnly>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -615,7 +615,7 @@ public readonly partial struct Logger
     #region Log(DateTime)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         DateTime argument)
     {
         if (message is null) return;
@@ -625,11 +625,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<DateTime>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         DateTime argument)
     {
         if (exception is null && message is null) return;
@@ -639,7 +639,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<DateTime>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -650,7 +650,7 @@ public readonly partial struct Logger
     #region Log(DateTimeOffset)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         DateTimeOffset argument)
     {
         if (message is null) return;
@@ -660,11 +660,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<DateTimeOffset>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         DateTimeOffset argument)
     {
         if (exception is null && message is null) return;
@@ -674,7 +674,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<DateTimeOffset>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -685,7 +685,7 @@ public readonly partial struct Logger
     #region Log(DateOnly)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         DateOnly argument)
     {
         if (message is null) return;
@@ -695,11 +695,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<DateOnly>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         DateOnly argument)
     {
         if (exception is null && message is null) return;
@@ -709,7 +709,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<DateOnly>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -720,7 +720,7 @@ public readonly partial struct Logger
     #region Log(byte)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         byte argument)
     {
         if (message is null) return;
@@ -730,11 +730,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<byte>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         byte argument)
     {
         if (exception is null && message is null) return;
@@ -744,7 +744,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<byte>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -755,7 +755,7 @@ public readonly partial struct Logger
     #region Log(sbyte)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         sbyte argument)
     {
         if (message is null) return;
@@ -765,11 +765,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<sbyte>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         sbyte argument)
     {
         if (exception is null && message is null) return;
@@ -779,7 +779,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<sbyte>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -790,7 +790,7 @@ public readonly partial struct Logger
     #region Log(char)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         char argument)
     {
         if (message is null) return;
@@ -800,11 +800,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<char>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         char argument)
     {
         if (exception is null && message is null) return;
@@ -814,7 +814,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleFormattableArgumentMessageLogMessageRenderer<char>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -825,7 +825,7 @@ public readonly partial struct Logger
     #region Log(string)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         string? argument)
     {
         if (message is null) return;
@@ -835,11 +835,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleStringArgumentMessageLogMessageRenderer(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         string? argument)
     {
         if (exception is null && message is null) return;
@@ -849,7 +849,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleStringArgumentMessageLogMessageRenderer(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -860,7 +860,7 @@ public readonly partial struct Logger
     #region Log(string, string)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         string? argument1,
         string? argument2)
     {
@@ -872,11 +872,11 @@ public readonly partial struct Logger
             argument1,
             argument2);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         string? argument1,
         string? argument2)
     {
@@ -888,7 +888,7 @@ public readonly partial struct Logger
             argument1,
             argument2);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -899,7 +899,7 @@ public readonly partial struct Logger
     #region Log(string, string, string)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         string? argument1,
         string? argument2,
         string? argument3)
@@ -913,11 +913,11 @@ public readonly partial struct Logger
             argument2,
             argument3);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         string? argument1,
         string? argument2,
         string? argument3)
@@ -931,7 +931,7 @@ public readonly partial struct Logger
             argument2,
             argument3);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -942,7 +942,7 @@ public readonly partial struct Logger
     #region Log(string, string, string, string)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         string? argument1,
         string? argument2,
         string? argument3,
@@ -958,11 +958,11 @@ public readonly partial struct Logger
             argument3,
             argument4);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         string? argument1,
         string? argument2,
         string? argument3,
@@ -978,7 +978,7 @@ public readonly partial struct Logger
             argument3,
             argument4);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -989,7 +989,7 @@ public readonly partial struct Logger
     #region Log(string...)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         params string?[] arguments)
     {
         if (message is null) return;
@@ -999,11 +999,11 @@ public readonly partial struct Logger
         var messageProvider = new ManyStringArgumentsMessageLogMessageRenderer(message,
             arguments);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         params string?[] arguments)
     {
         if (exception is null && message is null) return;
@@ -1013,7 +1013,7 @@ public readonly partial struct Logger
         var messageProvider = new ManyStringArgumentsMessageLogMessageRenderer(message,
             arguments);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1024,7 +1024,7 @@ public readonly partial struct Logger
     #region Log(T)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         T argument)
     {
         if (message is null) return;
@@ -1033,11 +1033,11 @@ public readonly partial struct Logger
 
         var messageProvider = new SingleInstanceArgumentMessageLogMessageRenderer<T>(message, argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         T argument)
     {
         if (exception is null && message is null) return;
@@ -1046,7 +1046,7 @@ public readonly partial struct Logger
 
         var messageProvider = new SingleInstanceArgumentMessageLogMessageRenderer<T>(message, argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1057,7 +1057,7 @@ public readonly partial struct Logger
     #region Log(T, T)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T1, T2>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         T1 argument1,
         T2 argument2)
     {
@@ -1069,11 +1069,11 @@ public readonly partial struct Logger
             argument1,
             argument2);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T1, T2>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         T1 argument1,
         T2 argument2)
     {
@@ -1085,7 +1085,7 @@ public readonly partial struct Logger
             argument1,
             argument2);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1096,7 +1096,7 @@ public readonly partial struct Logger
     #region Log(T, T, T)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T1, T2, T3>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         T1 argument1,
         T2 argument2,
         T3 argument3)
@@ -1110,11 +1110,11 @@ public readonly partial struct Logger
             argument2,
             argument3);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T1, T2, T3>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         T1 argument1,
         T2 argument2,
         T3 argument3)
@@ -1128,7 +1128,7 @@ public readonly partial struct Logger
             argument2,
             argument3);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1139,7 +1139,7 @@ public readonly partial struct Logger
     #region Log(T, T, T, T)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3, T4>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T1, T2, T3, T4>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         T1 argument1,
         T2 argument2,
         T3 argument3,
@@ -1155,11 +1155,11 @@ public readonly partial struct Logger
             argument3,
             argument4);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3, T4>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T1, T2, T3, T4>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         T1 argument1,
         T2 argument2,
         T3 argument3,
@@ -1175,7 +1175,7 @@ public readonly partial struct Logger
             argument3,
             argument4);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1186,7 +1186,7 @@ public readonly partial struct Logger
     #region Log(object...)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         params object?[] arguments)
     {
         if (message is null) return;
@@ -1196,11 +1196,11 @@ public readonly partial struct Logger
         var messageProvider = new ManyInstanceArgumentsMessageLogMessageRenderer(message,
             arguments);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         params object?[] arguments)
     {
         if (exception is null && message is null) return;
@@ -1210,7 +1210,7 @@ public readonly partial struct Logger
         var messageProvider = new ManyInstanceArgumentsMessageLogMessageRenderer(message,
             arguments);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1221,7 +1221,7 @@ public readonly partial struct Logger
     #region Log(LogMessageArgument)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         LogMessageArgument<T> argument)
     {
         if (message is null) return;
@@ -1231,11 +1231,11 @@ public readonly partial struct Logger
         var messageProvider = new SingleArgumentMessageLogMessageRenderer<T>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         LogMessageArgument<T> argument)
     {
         if (exception is null && message is null) return;
@@ -1245,7 +1245,7 @@ public readonly partial struct Logger
         var messageProvider = new SingleArgumentMessageLogMessageRenderer<T>(message,
             argument);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1256,7 +1256,7 @@ public readonly partial struct Logger
     #region Log(LogMessageArgument, LogMessageArgument)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T1, T2>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2)
     {
@@ -1268,11 +1268,11 @@ public readonly partial struct Logger
             argument1,
             argument2);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T1, T2>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2)
     {
@@ -1284,7 +1284,7 @@ public readonly partial struct Logger
             argument1,
             argument2);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1295,7 +1295,7 @@ public readonly partial struct Logger
     #region Log(LogMessageArgument, LogMessageArgument, LogMessageArgument)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T1, T2, T3>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2,
         LogMessageArgument<T3> argument3)
@@ -1309,11 +1309,11 @@ public readonly partial struct Logger
             argument2,
             argument3);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T1, T2, T3>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2,
         LogMessageArgument<T3> argument3)
@@ -1327,7 +1327,7 @@ public readonly partial struct Logger
             argument2,
             argument3);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1338,7 +1338,7 @@ public readonly partial struct Logger
     #region Log(LogMessageArgument, LogMessageArgument, LogMessageArgument, LogMessageArgument)
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3, T4>(LoggerContext loggerContext, LogLevel level, string? message,
+    private void Log<T1, T2, T3, T4>(scoped ref readonly LoggerContext loggerContext, LogLevel level, string? message,
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2,
         LogMessageArgument<T3> argument3,
@@ -1354,11 +1354,11 @@ public readonly partial struct Logger
             argument3,
             argument4);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    private void Log<T1, T2, T3, T4>(LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
+    private void Log<T1, T2, T3, T4>(scoped ref readonly LoggerContext loggerContext, LogLevel level, Exception? exception, string? message,
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2,
         LogMessageArgument<T3> argument3,
@@ -1374,7 +1374,7 @@ public readonly partial struct Logger
             argument3,
             argument4);
 
-        PublishLog(loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
+        PublishLog(in loggerContext, new LogContext(_loggerSource, level, time, messageProvider)
         {
             Exception = exception
         });
@@ -1383,7 +1383,7 @@ public readonly partial struct Logger
     #endregion
 
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.AggressiveOptimization)]
-    private static void PublishLog(LoggerContext loggerContext, in LogContext logContext)
+    private static void PublishLog(scoped ref readonly LoggerContext loggerContext, in LogContext logContext)
     {
         scoped ref readonly var logContextRef = ref logContext;
 
@@ -1456,7 +1456,7 @@ public readonly partial struct Logger
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private static void PublishLog(ILogContextRenderer logRenderer, LoggerTarget target, scoped ref readonly LogContext logContext,
         CancellationToken cancellationToken)
     {

@@ -3,16 +3,16 @@ using Falko.Logging.Renderers;
 
 namespace Falko.Logging.Contexts;
 
-[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+[method: MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 public readonly struct LogContext(string source, LogLevel level, DateTime time, ILogMessageRenderer message)
 {
-    public string Source => source;
+    public readonly string Source = source;
 
-    public LogLevel Level => level;
+    public readonly LogLevel Level = level;
 
-    public DateTime Time => time;
+    public readonly DateTime Time = time;
 
-    public ILogMessageRenderer Message => message;
+    public readonly ILogMessageRenderer Message = message;
 
     public Exception? Exception { get; init; }
 }

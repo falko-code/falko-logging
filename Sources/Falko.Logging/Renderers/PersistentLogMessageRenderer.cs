@@ -4,7 +4,6 @@ internal abstract class PersistentLogMessageRenderer : ILogMessageRenderer
 {
     private string? _message;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string Render()
     {
         var currentMessage = _message;
@@ -15,6 +14,5 @@ internal abstract class PersistentLogMessageRenderer : ILogMessageRenderer
         return newMessage;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected abstract string RenderCore();
 }

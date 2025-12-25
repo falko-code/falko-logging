@@ -13,44 +13,44 @@ public readonly partial struct Logger
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Error(DefaultInterpolatedStringHandler messageHandler)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, messageHandler.ToStringAndClear());
+            Log(in loggerContext, LogLevel.Error, messageHandler.ToStringAndClear());
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Error(Exception? exception, DefaultInterpolatedStringHandler messageHandler)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, messageHandler.ToStringAndClear());
+            Log(in loggerContext, LogLevel.Error, exception, messageHandler.ToStringAndClear());
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message);
+            Log(in loggerContext, LogLevel.Error, message);
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message);
+            Log(in loggerContext, LogLevel.Error, exception, message);
         }
     }
 
@@ -61,11 +61,11 @@ public readonly partial struct Logger
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Error<T>(T messageArgument, LogMessageFactory<T> messageFactory)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error,
+            Log(in loggerContext, LogLevel.Error,
                 messageArgument, messageFactory);
         }
     }
@@ -73,11 +73,11 @@ public readonly partial struct Logger
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Error<T>(Exception? exception, T messageArgument, LogMessageFactory<T> messageFactory)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception,
+            Log(in loggerContext, LogLevel.Error, exception,
                 messageArgument, messageFactory);
         }
     }
@@ -90,11 +90,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         short argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -103,11 +103,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         short argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -120,11 +120,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         ushort argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -133,11 +133,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         ushort argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -150,11 +150,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         int argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -163,11 +163,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)] [StructuredMessageTemplate] string? message,
         int argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -180,11 +180,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         nint argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -193,11 +193,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         nint argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -210,11 +210,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         uint argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -223,11 +223,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         uint argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -240,11 +240,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         nuint argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -253,11 +253,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         nuint argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -270,11 +270,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         long argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -283,11 +283,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         long argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -300,11 +300,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         ulong argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -313,11 +313,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         ulong argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -330,11 +330,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         BigInteger argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -343,11 +343,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         BigInteger argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -360,11 +360,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         float argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -373,11 +373,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         float argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -390,11 +390,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         double argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -403,11 +403,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         double argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -420,11 +420,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         decimal argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -433,11 +433,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         decimal argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -450,11 +450,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         Guid argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -463,11 +463,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         Guid argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -480,11 +480,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         TimeSpan argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -493,11 +493,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         TimeSpan argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -510,11 +510,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         TimeOnly argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -523,11 +523,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         TimeOnly argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -540,11 +540,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         DateTime argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -553,11 +553,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         DateTime argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -570,11 +570,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         DateTimeOffset argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -583,11 +583,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         DateTimeOffset argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -600,11 +600,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         DateOnly argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -613,11 +613,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         DateOnly argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -630,11 +630,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         byte argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -643,11 +643,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         byte argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -660,11 +660,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         sbyte argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -673,11 +673,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         sbyte argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -690,11 +690,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         char argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -703,11 +703,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         char argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -720,11 +720,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         string? argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -733,11 +733,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         string? argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -751,11 +751,11 @@ public readonly partial struct Logger
         string? argument1,
         string? argument2)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2);
         }
@@ -766,11 +766,11 @@ public readonly partial struct Logger
         string? argument1,
         string? argument2)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2);
         }
@@ -786,11 +786,11 @@ public readonly partial struct Logger
         string? argument2,
         string? argument3)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2,
                 argument3);
@@ -803,11 +803,11 @@ public readonly partial struct Logger
         string? argument2,
         string? argument3)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2,
                 argument3);
@@ -825,11 +825,11 @@ public readonly partial struct Logger
         string? argument3,
         string? argument4)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2,
                 argument3,
@@ -844,11 +844,11 @@ public readonly partial struct Logger
         string? argument3,
         string? argument4)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2,
                 argument3,
@@ -864,11 +864,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         params string?[] arguments)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 arguments);
         }
     }
@@ -877,11 +877,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         params string?[] arguments)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 arguments);
         }
     }
@@ -894,11 +894,11 @@ public readonly partial struct Logger
     public void Error<T>([Localizable(false)][StructuredMessageTemplate] string? message,
         T argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -907,11 +907,11 @@ public readonly partial struct Logger
     public void Error<T>(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         T argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -925,11 +925,11 @@ public readonly partial struct Logger
         T1 argument1,
         T2 argument2)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2);
         }
@@ -940,11 +940,11 @@ public readonly partial struct Logger
         T1 argument1,
         T2 argument2)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2);
         }
@@ -960,11 +960,11 @@ public readonly partial struct Logger
         T2 argument2,
         T3 argument3)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2,
                 argument3);
@@ -977,11 +977,11 @@ public readonly partial struct Logger
         T2 argument2,
         T3 argument3)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2,
                 argument3);
@@ -999,11 +999,11 @@ public readonly partial struct Logger
         T3 argument3,
         T4 argument4)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2,
                 argument3,
@@ -1018,11 +1018,11 @@ public readonly partial struct Logger
         T3 argument3,
         T4 argument4)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2,
                 argument3,
@@ -1038,11 +1038,11 @@ public readonly partial struct Logger
     public void Error([Localizable(false)][StructuredMessageTemplate] string? message,
         params object?[] arguments)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 arguments);
         }
     }
@@ -1051,11 +1051,11 @@ public readonly partial struct Logger
     public void Error(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         params object?[] arguments)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 arguments);
         }
     }
@@ -1068,11 +1068,11 @@ public readonly partial struct Logger
     public void Error<T>([Localizable(false)][StructuredMessageTemplate] string? message,
         LogMessageArgument<T> argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument);
         }
     }
@@ -1081,11 +1081,11 @@ public readonly partial struct Logger
     public void Error<T>(Exception? exception, [Localizable(false)][StructuredMessageTemplate] string? message,
         LogMessageArgument<T> argument)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument);
         }
     }
@@ -1099,11 +1099,11 @@ public readonly partial struct Logger
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2);
         }
@@ -1114,11 +1114,11 @@ public readonly partial struct Logger
         LogMessageArgument<T1> argument1,
         LogMessageArgument<T2> argument2)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2);
         }
@@ -1134,11 +1134,11 @@ public readonly partial struct Logger
         LogMessageArgument<T2> argument2,
         LogMessageArgument<T3> argument3)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2,
                 argument3);
@@ -1151,11 +1151,11 @@ public readonly partial struct Logger
         LogMessageArgument<T2> argument2,
         LogMessageArgument<T3> argument3)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2,
                 argument3);
@@ -1173,11 +1173,11 @@ public readonly partial struct Logger
         LogMessageArgument<T3> argument3,
         LogMessageArgument<T4> argument4)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, message,
+            Log(in loggerContext, LogLevel.Error, message,
                 argument1,
                 argument2,
                 argument3,
@@ -1192,11 +1192,11 @@ public readonly partial struct Logger
         LogMessageArgument<T3> argument3,
         LogMessageArgument<T4> argument4)
     {
-        var loggerContext = Volatile.Read(ref _loggerRuntime.LoggerContext);
+        var loggerContext = _loggerRuntime.LoggerContext;
 
         if (loggerContext.IsErrorLevelEnabled)
         {
-            Log(loggerContext, LogLevel.Error, exception, message,
+            Log(in loggerContext, LogLevel.Error, exception, message,
                 argument1,
                 argument2,
                 argument3,

@@ -3,7 +3,7 @@ using Falko.Logging.Targets;
 
 namespace Falko.Logging.Contexts;
 
-public sealed class LoggerContext
+public readonly struct LoggerContext
 {
     public static readonly LoggerContext Empty = new(LogLevels.None, [], [], CancellationToken.None);
 
@@ -27,7 +27,7 @@ public sealed class LoggerContext
 
     public readonly bool IsFatalLevelEnabled;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     internal LoggerContext
     (
         LogLevel level,

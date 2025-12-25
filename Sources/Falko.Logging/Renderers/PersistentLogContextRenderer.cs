@@ -2,12 +2,11 @@ using Falko.Logging.Contexts;
 
 namespace Falko.Logging.Renderers;
 
-[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+[method: MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 internal sealed class PersistentLogContextRenderer(ILogContextRenderer renderer) : ILogContextRenderer
 {
     private string? _message;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public string Render(scoped ref readonly LogContext logContext)
     {
         var currentMessage = Volatile.Read(ref _message);
