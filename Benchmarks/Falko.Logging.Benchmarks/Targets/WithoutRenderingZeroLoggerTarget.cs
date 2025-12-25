@@ -20,7 +20,7 @@ public sealed class WithoutRenderingZeroLoggerTarget : LoggerTarget
         CancellationToken cancellationToken
     )
     {
-        _ = context;
+        _ = renderer;
     }
 
     public override void Dispose(CancellationContext cancellationContext) { }
