@@ -9,8 +9,16 @@
 [![CSharp Version](https://img.shields.io/badge/CSharp-14-gray?style=for-the-badge)](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history)
 [![GitHub License](https://img.shields.io/github/license/falko-code/zero-logger?style=for-the-badge&color=gray)](License.md)
 
-High-performance static structured logger with minimal allocations.
+**High-performance static structured logger with minimal allocations.**
 
+## Quick Start
+
+Create the example file:
+```C#
+vim example.cs
+```
+
+Paste the following code:
 ```C#
 #:package Falko.ZeroLogger.Targets.Console@0.10.0
 #:package Falko.ZeroLogger.Targets.File@0.10.0
@@ -29,7 +37,7 @@ using var loggerRuntime = new LoggerRuntime().Initialize(builder => builder
         LoggerConsoleTarget.Instance
             .AsConcurrent())
     .AddTarget(SimpleLogContextRenderer.Instance,
-        new LoggerFileTarget("app_name", "./Logs")
+        new LoggerFileTarget("example", "./logs")
             .AsConcurrent()));
 
 var logger = typeof(Program).CreateLogger(loggerRuntime);
@@ -37,8 +45,9 @@ var logger = typeof(Program).CreateLogger(loggerRuntime);
 logger.Info("PI is {PI}", Math.PI);
 ```
 
+Run it:
 ```bash
-dotnet run Example.cs
+dotnet run example.cs
 ```
 
 ## Performance
