@@ -1,12 +1,12 @@
 <Project>
     <PropertyGroup Label="Versions">
-        <MicrosoftPackagesVersion>9.0.9</MicrosoftPackagesVersion>
+        <MicrosoftPackagesVersion>10.0.1</MicrosoftPackagesVersion>
     </PropertyGroup>
 
     <ItemGroup Label="Dependencies">
-        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2" />
-        <PackageVersion Include="BenchmarkDotNet" Version="0.15.4" />
-        <PackageVersion Include="NLog" Version="6.0.5" />
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4" />
+        <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+        <PackageVersion Include="NLog" Version="6.0.7" />
         <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="$(MicrosoftPackagesVersion)" />
         <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="$(MicrosoftPackagesVersion)" />
     </ItemGroup>
