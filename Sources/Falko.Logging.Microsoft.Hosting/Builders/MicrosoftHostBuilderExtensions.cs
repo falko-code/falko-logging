@@ -10,7 +10,7 @@ namespace Falko.Logging.Builders;
 public static class MicrosoftHostBuilderExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IMicrosoftHostBuilder UseZeroLogger(this IMicrosoftHostBuilder builder, LoggerRuntime loggerRuntime)
+    public static IMicrosoftHostBuilder UseLogging(this IMicrosoftHostBuilder builder, LoggerRuntime loggerRuntime)
     {
         builder.ConfigureServices((_, services) =>
         {
