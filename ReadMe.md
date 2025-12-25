@@ -9,7 +9,7 @@
 [![CSharp Version](https://img.shields.io/badge/CSharp-14-gray?style=for-the-badge)](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-version-history)
 [![GitHub License](https://img.shields.io/github/license/falko-code/zero-logger?style=for-the-badge&color=gray)](License.md)
 
-**High-performance static structured logger with minimal allocations.**
+High-performance static structured logger with minimal allocations.
 
 ## Quick Start
 
