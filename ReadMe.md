@@ -12,10 +12,10 @@
 High-performance static structured logger with minimal allocations.
 
 ```C#
-#:package Falko.ZeroLogger.Targets.Console@0.10.0.*-*
-#:package Falko.ZeroLogger.Targets.File@0.10.0.*-*
-#:package Falko.ZeroLogger.Targets.Concurrent@0.10.0.*-*
-#:package Falko.ZeroLogger.Renderers.Simple@0.10.0.*-*
+#:package Falko.ZeroLogger.Targets.Console@0.10.0
+#:package Falko.ZeroLogger.Targets.File@0.10.0
+#:package Falko.ZeroLogger.Targets.Concurrent@0.10.0
+#:package Falko.ZeroLogger.Renderers.Simple@0.10.0
 
 using Falko.Logging.Factories;
 using Falko.Logging.Logs;
