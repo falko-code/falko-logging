@@ -6,7 +6,7 @@
 *.sln text
 *.csproj text
 *.props text
-nuget.config
+nuget.config text
 
 *.png lfs
 *.gif lfs
